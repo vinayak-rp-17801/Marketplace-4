@@ -66,11 +66,13 @@ def create_docx_from_markdown(markdown_path: Path, output_path: Path) -> None:
     document.add_heading("Overview", level=2)
     if overview:
         for paragraph_text in overview.split("\n"):
-            document.add_paragraph(paragraph_text)
+            if paragraph_text.strip():
+                document.add_paragraph(paragraph_text)
 
-    document.add_heading("Key Features", level=2)
-    for feature in key_features:
-        document.add_paragraph(feature, style="List Bullet")
+    if key_features:
+        document.add_heading("Key Features", level=2)
+        for feature in key_features:
+            document.add_paragraph(feature, style="List Bullet")
 
     output_path.parent.mkdir(parents=True, exist_ok=True)
     document.save(output_path)
