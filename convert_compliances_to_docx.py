@@ -14,6 +14,10 @@ SOURCE_DIR = Path("compliances")
 OUTPUT_DIR = Path("compliances-docx")
 REGIONAL_ZIP = Path("Regional  Compliance.zip")
 SCREENSHOT_ZIPS = [Path(f"{index}.zip") for index in range(1, 6)]
+IMAGE_DPI = 96
+LOGO_WIDTH_PX = 180
+THUMBNAIL_WIDTH_PX = 740
+SCREENSHOT_WIDTH_INCHES = 6.5
 
 DOC_CODE_OVERRIDES = {
     "b3s-krankenhaus-and-sgb-v-section-75c-compliance-for-log360-cloud": "B3S / Section 75c",
@@ -189,12 +193,12 @@ def create_docx_from_markdown(
         for feature in key_features:
             document.add_paragraph(feature, style="List Bullet")
 
-    document.add_picture(str(logo_image), width=Inches(180 / 96))
-    document.add_picture(str(thumbnail_image), width=Inches(740 / 96))
+    document.add_picture(str(logo_image), width=Inches(LOGO_WIDTH_PX / IMAGE_DPI))
+    document.add_picture(str(thumbnail_image), width=Inches(THUMBNAIL_WIDTH_PX / IMAGE_DPI))
 
     document.add_heading("Screenshots", level=2)
     for screenshot in screenshots:
-        document.add_picture(str(screenshot), width=Inches(6.5))
+        document.add_picture(str(screenshot), width=Inches(SCREENSHOT_WIDTH_INCHES))
 
     output_path.parent.mkdir(parents=True, exist_ok=True)
     document.save(output_path)
